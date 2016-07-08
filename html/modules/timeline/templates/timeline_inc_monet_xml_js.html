@@ -1,0 +1,29 @@
+<{* $Id: timeline_inc_monet_xml_js.html,v 1.1 2011/12/26 05:48:44 ohwada Exp $ *}>
+
+<script type="text/javascript">
+//<![CDATA[
+function timeline_load_<{$id}>() 
+{
+	var timeline_param = {};
+	timeline_param["xml"]           = "<{$xml}>";
+	timeline_param["element"]       = "<{$element}>";
+	timeline_param["band_year"]     = "<{$band_year}>";
+	timeline_param["band_0_pixels"] = "<{$band_0_pixels}>";
+	timeline_param["band_1_pixels"] = "<{$band_1_pixels}>";
+	timeline_monet_xml( timeline_param );
+
+	Timeline.writeVersion('timeline_version');
+}
+
+<{if $show_onload }>
+  window.onload = timeline_load_<{$id}>;
+<{/if}>
+<{if $show_onresize }>
+  window.onresize = timeline_resize;
+<{/if}>
+//]]>
+</script>
+
+<{if $show_element }>
+  <div id="<{$element}>" style="<{$style}>">Loading ...</div>
+<{/if}>

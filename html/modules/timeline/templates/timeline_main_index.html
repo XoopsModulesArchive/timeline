@@ -1,0 +1,69 @@
+<{* $Id: timeline_main_index.html,v 1.4 2011/12/26 05:47:21 ohwada Exp $ *}>
+
+<{if $show_default_css }>
+  <link href="<{$xoops_url}>/modules/<{$xoops_dirname}>/libs/default.css" type="text/css" rel="stylesheet"/>
+<{/if}>
+
+<{* === timeline === *}>
+<{$timeline_js}>
+
+<script type="text/javascript">
+//<![CDATA[
+function timeline_zoom_<{$id}>( link, op, unit )
+{
+	var date  = timeline_get_center_date();
+	link.href = '<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?op=' + op + '&unit=' + unit + '&date=' + encodeURIComponent(date) ;
+	return true;
+}
+//]]>
+</script>
+
+<{* menue *}>
+<h3><{$lang_title_timeline}></h3>
+ | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php">
+<{$lang_title_simple_xml}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?op=simple_events">
+<{$lang_title_simple_events}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?op=painter_json">
+<{$lang_title_painter_json}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?op=painter_events">
+<{$lang_title_painter_events}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?op=monet_xml">
+<{$lang_title_monet_xml}></a> | 
+<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/index.php?op=monet_events">
+<{$lang_title_monet_events}></a> | 
+<br />
+
+<h4><{$lang_title}></h4>
+
+<{if $sample_url }>
+  <a href="<{$sample_url}>" target="_blank">Original Sample</a><br /><br />
+<{/if}>
+
+<div id="<{$element}>" class="<{$class}>">Loading ...</div>
+
+<{if $show_unit }>
+  <a href="#" onClick="return timeline_zoom_<{$id}>( this,'<{$op}>','year')">
+  YEAR</a> |
+  <a href="#" onClick="return timeline_zoom_<{$id}>( this,'<{$op}>','month')">
+  MONTH</a> |
+  <a href="#" onClick="return timeline_zoom_<{$id}>( this,'<{$op}>','week')">
+  WEEK</a> 
+  <br /><br />
+<{/if}>
+
+<a href="http://www.simile-widgets.org/timeline/" target="_blank">
+Powered by MIT Simile Project</a><br />
+Timeline version: <span id="timeline_version"></span><br /><br />
+
+<{$lang_caution_ie}><br /><br />
+
+<noscript>
+  <div class="timeline_error"><{$lang_js_invalid}></div>
+</noscript>
+
+<{if $is_module_admin }>
+	<br /><hr />
+	<a href="<{$xoops_url}>/modules/<{$xoops_dirname}>/admin/index.php"><{$lang_goto_admin}></a>
+<{/if}>

@@ -1,0 +1,79 @@
+<{* $Id: timeline_inc_monet_events_js.html,v 1.1 2011/12/26 05:48:44 ohwada Exp $ *}>
+
+<script type="text/javascript">
+//<![CDATA[
+var timeline_event_array = new Array();
+
+<{* -- timeline event loop -- *}>
+<{counter name="timeline_event_i" assign="timeline_event_i" start=0 print=false }>
+<{foreach item=event from=$events}>
+	var event = {};
+	<{if $event.start_year != '' }>
+		event["start"] = new Date("<{$event.start_year}>", "<{$event.start_month_1}>", "<{$event.start_day}>", "<{$event.start_hour}>", "<{$event.start_minute}>", "<{$event.start_second}>" );
+	<{elseif $event.start != '' }>
+		event["start"] = new Date( Date.parse( "<{$event.start}>" ) );
+	<{/if}>
+	<{if $event.end_year != '' }>
+		event["end"] = new Date("<{$event.end_year}>", "<{$event.end_month_1}>", "<{$event.end_day}>", "<{$event.end_hour}>", "<{$event.end_minute}>", "<{$event.end_second}>" );
+	<{elseif $event.end != '' }>
+		event["end"] = new Date( Date.parse( "<{$event.end}>" ) );
+	<{/if}>
+	<{if $event.latest_start_year != '' }>
+		event["latest_start"] = new Date("<{$event.latest_start_year}>", "<{$event.latest_start_month_1}>", "<{$event.latest_start_day}>", "<{$event.latest_start_hour}>", "<{$event.latest_start_minute}>", "<{$event.latest_start_second}>" );
+	<{elseif $event.latest_start != '' }>
+		event["latest_start"] = new Date( Date.parse( "<{$event.latest_start}>" ) );
+	<{/if}>
+	<{if $event.earliest_end_year != '' }>
+		event["earliest_end"] = new Date("<{$event.earliest_end_year}>", "<{$event.earliest_end_month}>", "<{$event.earliest_end_day}>", "<{$event.earliest_end_hour}>", "<{$event.earliest_end_minute}>", "<{$event.earliest_end_second}>" );
+	<{elseif $event.earliest_end != '' }>
+		event["earliest_end"] = new Date( Date.parse( "<{$event.earliest_end}>" ) );
+	<{/if}>
+	<{if $event.title != '' }>
+		event["text"] = "<{$event.title}>";
+	<{/if}>
+	<{if $event.description != '' }>
+		event["description"] = "<{$event.description}>";
+	<{/if}>
+	<{if $event.image != '' }>
+		event["image"] = "<{$event.image}>";
+	<{/if}>
+	<{if $event.link != '' }>
+		event["link"] = "<{$event.link}>";
+	<{/if}>
+	<{if $event.icon != '' }>
+		event["icon"] = "<{$event.icon}>";
+	<{/if}>
+	<{if $event.is_duration != 'true' }>
+		event["is_duration"] = true;
+	<{/if}>
+	timeline_event_array[<{$timeline_event_i}>] = event;
+<{counter name="timeline_event_i" assign="timeline_event_i" print=false }>
+<{/foreach}>
+<{* -- timeline event end -- *}>
+
+function timeline_load_<{$id}>() 
+{
+	var timeline_param = {};
+	timeline_param["element"]       = "<{$element}>";
+	timeline_param["band_year"]     = "<{$band_year}>";
+	timeline_param["band_0_pixels"] = "<{$band_0_pixels}>";
+	timeline_param["band_1_pixels"] = "<{$band_1_pixels}>";
+
+	timeline_monet_events( timeline_param, timeline_event_array );
+
+	Timeline.writeVersion('timeline_version');
+}
+
+<{if $show_onload }>
+  window.onload = timeline_load_<{$id}>;
+<{/if}>
+<{if $show_onresize }>
+  window.onresize = timeline_resize;
+<{/if}>
+
+//]]>
+</script>
+
+<{if $show_element }>
+  <div id="<{$element}>" style="<{$style}>">Loading ...</div>
+<{/if}>

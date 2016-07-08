@@ -1,0 +1,78 @@
+<{* $Id: timeline_inc_simple_events_js.html,v 1.4 2011/12/26 23:48:34 ohwada Exp $ *}>
+
+<script type="text/javascript">
+//<![CDATA[
+var timeline_event_array = new Array();
+
+<{* -- timeline event loop -- *}>
+<{counter name="timeline_event_i" assign="timeline_event_i" start=0 print=false }>
+<{foreach item=event from=$events}>
+	var event = {};
+	<{if $event.start_unix > 0 }>
+		var start = new Date();
+		start.setTime( Math.floor( <{$event.start_unix}> ) * 1000 );
+		event["start"] = start;
+	<{elseif $event.start_year != '' }>
+		event["start"] = new Date("<{$event.start_year}>", "<{$event.start_month_1}>", "<{$event.start_day}>", "<{$event.start_hour}>", "<{$event.start_minute}>", "<{$event.start_second}>" );
+	<{elseif $event.start != '' }>
+		event["start"] = new Date( Date.parse( "<{$event.start}>" ) );
+	<{/if}>
+	<{if $event.end_unix > 0 }>
+		var end = new Date();
+		end.setTime( Math.floor( <{$event.end_unix}> ) * 1000 );
+		event["end"] = end;
+	<{elseif $event.end_year != '' }>
+		event["end"] = new Date("<{$event.end_year}>", "<{$event.end_month_1}>", "<{$event.end_day}>", "<{$event.end_hour}>", "<{$event.end_minute}>", "<{$event.end_second}>" );
+	<{elseif $event.end != '' }>
+		event["end"] = new Date( Date.parse( "<{$event.end}>" ) );
+	<{/if}>
+	<{if $event.title != '' }>
+		event["text"] = "<{$event.title}>";
+	<{/if}>
+	<{if $event.description != '' }>
+		event["description"] = "<{$event.description}>";
+	<{/if}>
+	<{if $event.image != '' }>
+		event["image"] = "<{$event.image}>";
+	<{/if}>
+	<{if $event.link != '' }>
+		event["link"] = "<{$event.link}>";
+	<{/if}>
+	timeline_event_array[<{$timeline_event_i}>] = event;
+<{counter name="timeline_event_i" assign="timeline_event_i" print=false }>
+<{/foreach}>
+<{* -- timeline event end -- *}>
+
+function timeline_load_<{$id}>() 
+{
+	var timeline_param = {};
+	timeline_param["element"]          = "<{$element}>";
+	timeline_param["band_0_date"]      = "<{$band_0_date}>";
+	timeline_param["band_0_width"]     = "<{$band_0_width}>";
+	timeline_param["band_0_pixels"]    = "<{$band_0_pixels}>";
+	timeline_param["band_1_date"]      = "<{$band_1_date}>";
+	timeline_param["band_1_width"]     = "<{$band_1_width}>";
+	timeline_param["band_1_pixels"]    = "<{$band_1_pixels}>";
+	timeline_param["band_0_unit"]      = <{$band_0_unit}>;
+	timeline_param["band_1_unit"]      = <{$band_1_unit}>;
+	timeline_param["band_1_syncwith"]  = <{$band_1_syncwith}>;
+	timeline_param["band_1_highlight"] = <{$band_1_highlight}>;
+
+	timeline_simple_events( timeline_param, timeline_event_array );
+
+	Timeline.writeVersion('timeline_version');
+}
+
+<{if $show_onload }>
+  window.onload = timeline_load_<{$id}>;
+<{/if}>
+<{if $show_onresize }>
+  window.onresize = timeline_resize;
+<{/if}>
+
+//]]>
+</script>
+
+<{if $show_element }>
+  <div id="<{$element}>" style="<{$style}>">Loading ...</div>
+<{/if}>

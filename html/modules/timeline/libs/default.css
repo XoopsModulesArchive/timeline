@@ -1,0 +1,24 @@
+/* $Id: default.css,v 1.1.1.1 2009/03/19 14:42:18 ohwada Exp $ */
+
+.timeline_view
+{
+	border:  1px solid #808080;	/* gray */
+	width:   98%;
+	height:  300px;
+	margin:  5px;
+	padding: 5px;
+}
+
+.timeline_painter
+{
+	border:  1px solid #808080;	/* gray */
+	width:   98%;
+	height:  500px;
+	margin:  5px;
+	padding: 5px;
+}
+
+.timeline_error
+{
+  color: #ff0000;
+}
